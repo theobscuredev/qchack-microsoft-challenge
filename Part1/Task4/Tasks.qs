@@ -37,6 +37,55 @@ namespace QCHack.Task4 {
     // Hint: Remember that you can examine the inputs and the intermediary results of your computations
     //       using Message function for classical values and DumpMachine for quantum states.
     //
+    operation ValidTriangle (inputs : Qubit[], output : Qubit) : Unit is Adj+Ctl {
+        for i in 0 .. (Length(inputs)-1) {
+            X(inputs[i]);
+            Controlled X(inputs, output);
+            X(inputs[i]);
+        }
+        X(inputs[0]);
+        X(inputs[1]);
+        Controlled X(inputs, output);
+        X(inputs[0]);
+        
+        X(inputs[2]);
+        Controlled X(inputs, output);
+        X(inputs[1]);
+
+        X(inputs[0]);
+        Controlled X(inputs, output);
+        X(inputs[0]);
+        X(inputs[2]);
+    }
+    
+    function GetTriangle(V: Int, edges : (Int, Int)[]) : (Int, Int, Int)[] {
+        let n = Length(edges);
+        mutable count = 0;
+        mutable triplets = new (Int, Int, Int)[n];
+
+        // a triplet containing three edges has a total of 3 distinct vertices iff it represents a triangle
+        // given that we don't have loops (singleton circles) in edge list
+        for i in 0 .. (n-1) {
+            let (e1l, e1r) = edges[i];
+            for j in (i+1) .. (n-1){
+                let (e2l, e2r) = edges[j];
+                for k in (j+1) .. (n-1) {
+                    let (e3l, e3r) = edges[k];
+                    
+                    let uniqueV = Unique(EqualI, [e1l, e1r, e2l, e2r, e3l, e3r]);
+                    if Length(uniqueV == 3) {
+                        set triplets w/= count <- (i, j, k);
+                        set count += 1;
+                    }
+                }
+            }
+        }
+
+        return triplets[0 .. (count-1)];
+    }
+
+
+
     operation Task4_TriangleFreeColoringOracle (
         V : Int, 
         edges : (Int, Int)[], 
