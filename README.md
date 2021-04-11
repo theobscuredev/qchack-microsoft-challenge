@@ -1,3 +1,6 @@
+# Problem Description for Part 2
+The problem description can be found here: [Part2](https://github.com/theobscuredev/qchack-microsoft-challenge/blob/master/Part2.pdf). Due to time constraints, pratical demonstration and implementation wasn't possible!
+
 # Welcome to Microsoft challenge at QCHack 2021!
 
 We are excited to offer this challenge to [QCHack 2021](https://www.qchack.io/) participants, and we are looking forward to the solutions you will come up with!
